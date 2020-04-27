@@ -154,10 +154,10 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-[Aiko Mi](1205@holbertonschool.com)
-[Pablo Andres Urbano](1283@holbertonschool.com)
+[Aiko Mi](1205@holbertonschool.com) 
+[Pablo Andres Urbano](1283@holbertonschool.com) 
 
-Based on
+Based on project of: 
 [Alexa Orrico](https://github.com/alexaorrico) and [Jennifer Huang](https://github.com/jhuang10123)
 
 ## License
