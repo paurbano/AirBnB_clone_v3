@@ -88,7 +88,7 @@ class DBStorage:
         return objs
 
     def count(self, cls=None):
-        """ retrieve number of objects 
+        """ retrieve number of objects
             cls = class name
         """
         # print("entro al count DbStorage")
