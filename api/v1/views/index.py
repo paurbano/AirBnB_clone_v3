@@ -5,7 +5,6 @@ from flask import jsonify
 from models import storage
 
 
-
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     """ count all objects given a Class name"""
@@ -18,7 +17,6 @@ def stats():
             "users": storage.count("User")
             }
     return jsonify(dictStats)
-
 
 
 @app_views.route("/status", strict_slashes=False)

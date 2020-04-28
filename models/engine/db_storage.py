@@ -91,9 +91,13 @@ class DBStorage:
         """ retrieve number of objects 
             cls = class name
         """
+        # print("entro al count DbStorage")
         numObjects = 0
         if cls:
-            numObjects = self.__session.query(cls).count()
+            try:
+                numObjects = self.__session.query(eval(cls)).count()
+            except:
+                print("Error al hacer count de la clase:" + cls)
         else:
             for _class in classes:
                 _object = self.__session.query(eval(_class)).count()
