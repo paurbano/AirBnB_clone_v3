@@ -11,10 +11,9 @@ from models.amenity import Amenity
 def get_amenities():
     """ all amenities """
     amelist = []
-    amenities = storage.get('Amenity')
-    print(amenities)
+    amenities = storage.all("Amenity")  
     for amenity in amenities.values():
-            amelist.append(amenity.to_dict())
+        amelist.append(amenity.to_dict())
     return(jsonify(amelist)), 200
 
 
