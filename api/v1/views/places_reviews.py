@@ -9,7 +9,7 @@ from models.user import User
 
 @app_views.route('/places/<place_id>/reviews', strict_slashes=False,
                  methods=['GET'])
-def get_cistates(place_id=None):
+def get_reviews(place_id=None):
     """ reviews of a place """
     place_list = []
     place = storage.get('Place', place_id)
