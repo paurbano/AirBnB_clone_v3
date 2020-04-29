@@ -83,8 +83,8 @@ class DBStorage:
         """
         objs = None
         if cls and id:
-            objs = self.__session.query(eval(cls)).
-            filter(eval(cls).id == id).first()
+            objs = self.__session.query(eval(cls)).\
+                   filter(eval(cls).id == id).first()
 
         return objs
 
