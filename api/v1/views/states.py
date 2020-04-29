@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" states """
 from models import storage
 from api.v1.views import app_views
 from flask import jsonify, abort, make_response
@@ -20,7 +21,7 @@ def get_states(state_id=None):
     else:
         state = storage.get("State", state_id)
         if state is None:
-            return abort(404)
+            abort(404)
         else:
             return jsonify(state.to_dict())
 
