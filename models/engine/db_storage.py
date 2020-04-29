@@ -82,7 +82,6 @@ class DBStorage:
             id: string representing the object ID
         """
         allObj = self.all()
-        print(allObj)
         searchThis = "{}.{}".format(str(cls), str(id))
         res = allObj.get(searchThis)
         return res
