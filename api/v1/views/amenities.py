@@ -11,10 +11,9 @@ from models.amenity import Amenity
 def get_amenities():
     """ all amenities """
     amelist = []
-    amenities = storage.get('Amenity')
-    print(amenities)
+    amenities = storage.all("Amenity")
     for amenity in amenities.values():
-            amelist.append(amenity.to_dict())
+        amelist.append(amenity.to_dict())
     return(jsonify(amelist)), 200
 
 
@@ -66,7 +65,7 @@ def update_amenity(amenity_id):
     if amenity is None:
         abort(404)
     for i, j in cont.items():
-        if i != 'id' and i != 'cerated_at' and i != 'updated_at':
+        if i != 'id' and i != 'created_at' and i != 'updated_at':
             setattr(amenity, i, j)
     storage.save()
     return jsonify(amenity.to_dict()), 200
