@@ -81,10 +81,12 @@ class DBStorage:
             cls: class name
             id: string representing the object ID
         """
-        allObj = self.all()
-        searchThis = "{}.{}".format(str(cls), str(id))
-        res = allObj.get(searchThis)
-        return res
+        objs = None
+        if cls and id:
+            objs = self.__session.query(eval(cls)).
+            filter(eval(cls).id == id).first()
+
+        return objs
 
     def count(self, cls=None):
         """ retrieve number of objects
