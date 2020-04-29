@@ -53,7 +53,7 @@ def create_User():
     return make_response(jsonify((new_user.to_dict())), 201)
 
 
-@app_views.route('/users/<string:user_id>', methods=['PUT'],
+@app_views.route('/users/<user_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_User(user_id):
     """ update a User """
@@ -66,6 +66,6 @@ def update_User(user_id):
     ignore = ['id', 'created_at', 'updated_at', 'email']
     for attribute, value in req.items():
         if attribute not in ignore:
-            setattr(User, attribute, value)
+            setattr(user, attribute, value)
     user.save()
     return make_response(jsonify((user.to_dict())), 200)
