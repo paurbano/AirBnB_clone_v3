@@ -4,7 +4,7 @@ from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import storage
 from models.place import Place
-
+from models.user import User
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False,
                  methods=['GET'])
@@ -25,6 +25,7 @@ def get_places(city_id=None):
 def get_place(place_id):
     """ returns a place """
     place = storage.get('Place', place_id)
+    print(place)
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
@@ -46,21 +47,21 @@ def del_place(place_id):
                  methods=['POST'])
 def create_place(city_id):
     """ creates a place """
-    cols = ['name', 'user_id']
+    params = ['name', 'user_id']
     city = storage.get('City', city_id)
     if city is None:
         abort(404)
-    cont = request.get_json()
-    if cont is None:
+    content = request.get_json()
+    if content is None:
         abort(400, 'Not a JSON')
-    for col in cols:
-        if col not in cont:
-            abort(400, 'Missing {}'.format(col))
+    for param in params:
+        if param not in content:
+            abort(400, 'Missing {}'.format(param))
     user = storage.get('User', content['user_id'])
     if user is None:
         abort(404)
-    cont['city_id'] = city_id
-    place = Place(**cont)
+    content['city_id'] = city_id
+    place = Place(**content)
     storage.new(place)
     storage.save()
     return jsonify(place.to_dict()), 201
