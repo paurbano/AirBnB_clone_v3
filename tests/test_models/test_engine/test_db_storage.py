@@ -18,9 +18,15 @@ import json
 import os
 import pep8
 import unittest
+from os import getenv
+from models import storage
+
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
+
+db = getenv("HBNB_TYPE_STORAGE")
 
 
 class TestDBStorageDocs(unittest.TestCase):
@@ -87,21 +93,23 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
-    def test_get_method(self):
-        """Test db storage. get function"""
-        db_state1 = State(name='Atlanta')
-        models.storage.new(db_state1)
-        models.storage.save()
-        key = models.storage.get(State, db_state1.id)
-        self.assertEqual(key.id, db_state1.id)
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_total(self):
+        '''test amount of states'''
+        storage.reload()
+        total = storage.all()
+        print(total)
+        count = 0
+        for i in total:
+            count = count + 1
+        f = storage.count()
+        self.assertEqual(f, count)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
-    def test_count_method(self):
-        """Test db storage. count function"""
-        n1 = models.storage.count('State')
-        db_state2 = State(name='Oregon')
-        models.storage.new(db_state2)
-        models.storage.save()
-        n2 = models.storage.count(State)
-        self.assertEqual(n1 + 1, n2)
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        '''test get of states'''
+        new_state = State(name="Illinois")
+        storage.new(new_state)
+        storage.save()
+        test_state = storage.get("State", new_state.id)
+        self.assertEqual(test_state.id, new_state.id)

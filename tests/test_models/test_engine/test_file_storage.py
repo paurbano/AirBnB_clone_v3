@@ -5,7 +5,7 @@ Contains the TestFileStorageDocs classes
 
 from datetime import datetime
 import inspect
-import models
+from models import *
 from models.engine import file_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -18,9 +18,16 @@ import json
 import os
 import pep8
 import unittest
+from os import getenv
+from models import storage
+import models
+
 FileStorage = file_storage.FileStorage
+
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
+
+db = getenv("HBNB_TYPE_STORAGE")
 
 
 class TestFileStorageDocs(unittest.TestCase):
@@ -70,6 +77,7 @@ test_file_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
@@ -113,3 +121,9 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_1(self):
+        '''testing output'''
+        f = storage.count(State)
+        self.assertEqual(f, 1)
