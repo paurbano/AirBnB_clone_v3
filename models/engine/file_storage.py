@@ -76,6 +76,7 @@ class FileStorage:
             id: string representing the object ID
         """
         if cls and id:
+            cls = eval(cls) if type(cls) == str else cls
             key = cls.__name__ + '.' + id
             if key in self.__objects:
                 return self.__objects[key]
@@ -87,8 +88,5 @@ class FileStorage:
             cls: class name
         """
         numObjects = 0
-        if cls and cls in classes:
-            numObjects = len(self.all(cls))
-        else:
-            numObjects = len(self.__objects)
+        numObjects = len(self.all(cls))
         return numObjects
