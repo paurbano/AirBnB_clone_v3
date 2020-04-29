@@ -5,6 +5,7 @@ from flask import jsonify, request, abort
 from models import storage
 from models.place import Place
 from models.user import User
+from models.review import Review
 
 
 @app_views.route('/places/<place_id>/reviews', strict_slashes=False,
@@ -13,10 +14,10 @@ def get_reviews(place_id=None):
     """ reviews of a place """
     place_list = []
     place = storage.get('Place', place_id)
-    if state:
+    if place:
         reviews = place.reviews
         for review in reviews:
-            place_list.append(reviews.to_dict())
+            place_list.append(review.to_dict())
         return(jsonify(place_list)), 200
     abort(404)
 
@@ -47,7 +48,7 @@ def delete_review(review_id):
                  methods=['POST'])
 def create_review(place_id):
     """ creates a review """
-    review = storage.get('Review', place_id)
+    review = storage.get('Place', place_id)
     if review is None:
         abort(404)
     cont = request.get_json()
@@ -60,7 +61,7 @@ def create_review(place_id):
     user = storage.get("User", cont['user_id'])
     if user is None:
         abort(404)
-    ncity = Review(text=cont['text'], user_id=cont['user_id'],
+    ncity = Review(text=cont['text'], user_id=user.id,
                    place_id=place_id)
     storage.new(ncity)
     storage.save()
