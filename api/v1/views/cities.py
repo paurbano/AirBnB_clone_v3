@@ -3,30 +3,28 @@
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import storage
-from models.state import State
 from models.city import City
 
 
 @app_views.route('/states/<state_id>/cities', strict_slashes=False,
                  methods=['GET'])
-def get_cistates(state_id):
+def get_cistates(state_id=None):
     """ cities of a state """
     cistalist = []
-    state = storage.get('State', state_id).first()
-    if state is None:
-        abort(404, "Not Found")
-    else:
+    state = storage.get('State', state_id)
+    if state:
         cities = state.cities
         for city in cities:
             cistalist.append(city.to_dict())
-        return(jsonify(cistalist))
+        return(jsonify(cistalist)), 200
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False,
                  methods=['GET'])
 def get_city(city_id):
     """ returns a city """
-    city = storage.get('City', city_id).first()
+    city = storage.get('City', city_id)
     if city is None:
         abort(404)
     return jsonify(city.to_dict())
@@ -36,7 +34,7 @@ def get_city(city_id):
                  methods=['DELETE'])
 def del_city(city_id):
     """ deletes a city """
-    city = storage.get('City', city_id).first()
+    city = storage.get('City', city_id)
     if city is None:
         abort(404)
     storage.delete(city)
@@ -48,7 +46,7 @@ def del_city(city_id):
                  methods=['POST'])
 def create_city(state_id):
     """ creates a city """
-    state = storage.get('State', state_id).first()
+    state = storage.get('State', state_id)
     if state is None:
         abort(404)
     cont = request.get_json()
@@ -68,7 +66,7 @@ def update_city(city_id):
     cont = request.get_json()
     if cont is None:
         abort(400, 'Not a JSON')
-    city = storage.get('City', city_id).first()
+    city = storage.get('City', city_id)
     if city is None:
         abort(404)
     ignore = ['id', 'created_at', 'updated_at', 'state_id']

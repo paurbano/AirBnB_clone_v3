@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!usr/bin/python3
 """
 Contains the class DBStorage
 """
@@ -81,11 +81,11 @@ class DBStorage:
             cls: class name
             id: string representing the object ID
         """
-        objs = None
-        if cls and id:
-            objs = self.__session.query(eval(cls)).filter(eval(cls).id == id)
-
-        return objs
+        allObj = self.all()
+        print(allObj)
+        searchThis = "{}.{}".format(str(cls), str(id))
+        res = allObj.get(searchThis)
+        return res
 
     def count(self, cls=None):
         """ retrieve number of objects
