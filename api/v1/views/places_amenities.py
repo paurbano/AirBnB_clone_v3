@@ -21,13 +21,13 @@ def get_plamenities(place_id):
     else:
         amenities = place.amenity_ids
     for amenity in amenities:
-        amenities.append(amenity.to_dict())
+        ameList.append(amenity.to_dict())
     return jsonify(ameList)
 
 
 @app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_place_amenity(place_id, amenity_id):
+def del_plamenities(place_id, amenity_id):
     """deletes an amenity"""
     place = storage.get("Place", place_id)
     amenity = storage.get("Amenity", amenity_id)
@@ -48,7 +48,7 @@ def delete_place_amenity(place_id, amenity_id):
 
 @app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
                  methods=['POST'], strict_slashes=False)
-def post_place_amenity(place_id, amenity_id):
+def create_plamenities(place_id, amenity_id):
     """adds an amenity"""
     place = storage.get("Place", place_id)
     amenity = storage.get("Amenity", amenity_id)
