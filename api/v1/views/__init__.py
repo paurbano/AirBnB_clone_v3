@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-""" """
+""" Blueprint for API  
+    larger applications it’s recommended to divide them into smaller groups 
+    where each group is implemented with the help of a blueprint
+    more info https://flask.palletsprojects.com/en/1.1.x/blueprints/#blueprints
+"""
 from flask import Blueprint
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
